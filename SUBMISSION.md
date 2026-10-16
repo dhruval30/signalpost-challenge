@@ -8,8 +8,8 @@
 
 ## Agent
 
-- Agent name: `<FILL>`
-- Contact: `<FILL — email the organisers should reach>`
+- Agent name: Dhruval Padia
+- Contact: padiadhruval@gmail.com
 - Version: 1 (baseline)
 
 ## Reproducible setup

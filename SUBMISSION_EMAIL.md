@@ -1,7 +1,7 @@
 # Submission email (ready to send)
 
 **To:** submit@builderr.ai
-**Subject:** Signalpost Round 1 — Submission v1 — `<AGENT NAME>`
+**Subject:** Signalpost Round 1 — Submission v1 — Dhruval Padia
 
 ---
 
@@ -9,8 +9,8 @@ Hi Signalpost team,
 
 Please find our Round 1 submission below.
 
-**Agent name:** `<FILL — e.g. Numerize Signalpost Agent>`
-**Contact:** developer@numerize.ai
+**Agent name:** Dhruval Padia
+**Contact:** padiadhruval@gmail.com
 **Submission version:** 1 (baseline)
 
 **Repository:** https://github.com/dhruval30/signalpost-challenge
@@ -62,4 +62,5 @@ Produces exactly one terminal envelope per input in `out/envelopes.jsonl` and a 
 
 Thanks — happy to answer anything.
 
-`<FILL — signature>`
+Dhruval Padia
+padiadhruval@gmail.com
