@@ -1,0 +1,73 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+pip-wheel-metadata/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- uv ---
+# keep uv.lock committed (pinned deps); ignore caches only
+.uv-cache/
+
+# --- Claude Code local state ---
+.claude/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Secrets ---
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+service-account*.json
+*.secrets
+
+# --- Downloaded registry / universe datasets (large, reproducible from source) ---
+financial-filer-master-2025.jsonl
+brreg-enheter.csv
+signalpost-universe.jsonl.gz
+*.jsonl.gz
+
+# --- Local runtime outputs ---
+signalpost-starter-kit/out/
+signalpost-starter-kit/workspace/
+signalpost-starter-kit/.cache/
+signalpost-starter-kit/scrapy-cache/
+signalpost-starter-kit/snapshots/
+signalpost-starter-kit/http-cache/
+out/
+workspace/
+*.log
+logs/
+
+# --- Local batch selections (reproducible from select_entry_batch.py) ---
+entry-companies.jsonl
+smoke-companies.jsonl
+
+# --- Large models / weights ---
+*.pt
+*.bin
+*.safetensors
+*.onnx
