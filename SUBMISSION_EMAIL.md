@@ -14,7 +14,7 @@ Please find our Round 1 submission below.
 **Submission version:** 1 (baseline)
 
 **Repository:** https://github.com/dhruval30/signalpost-challenge
-**Exact commit SHA:** `<FILL AFTER PUSH — the 40-character hash from `git rev-parse HEAD`>`
+**Exact commit SHA:** `8dc9ca72894546162af5b9bcffee430cf6e05788`
 **Branch:** `main`
 
 **Setup (Python 3.12+ with [`uv`](https://docs.astral.sh/uv/)):**
