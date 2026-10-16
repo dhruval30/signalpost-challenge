@@ -130,6 +130,11 @@ def terminal_envelope(
             "final_timestamp": (record or {}).get("retrieved_at") or completed_at,
         }
     entity_state = "submission_error" if any(item["state"] == "submission_error" for item in module_states.values()) else "complete"
+
+    external = (profile.get("evidence", {}).get("external_footprint") or {})
+    observations = list(external.get("observations") or [])
+    claims, evidence_rows = _external_claims_and_evidence(profile["organisation_number"], observations)
+
     return {
         "run_id": run_id,
         "organisation_number": profile["organisation_number"],
@@ -138,7 +143,51 @@ def terminal_envelope(
         "completed_at": completed_at,
         "modules": module_states,
         "profile": profile,
+        "claims": claims,
+        "evidence": evidence_rows,
+        "external_observations": observations,
+        "changes": [],
+        "errors": [],
+        "operations": {
+            "requests": int((profile.get("run_metrics") or {}).get("requests") or 0),
+            "runtime_ms": None,
+            "third_party_cost_usd": 0,
+        },
     }
+
+
+def _external_claims_and_evidence(
+    org: str, observations: list[dict[str, Any]]
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Project exact-entity external observations into OUTPUT_CONTRACT claims + evidence."""
+    claims: list[dict[str, Any]] = []
+    evidence_rows: list[dict[str, Any]] = []
+    for index, observation in enumerate(observations):
+        if not observation.get("exact_entity"):
+            continue
+        signal = observation.get("signal_type") or observation.get("platform") or "external_signal"
+        evidence_id = observation.get("id") or f"ext-{org}-{index}"
+        evidence_rows.append({
+            "id": evidence_id,
+            "source_url": observation.get("source_url"),
+            "source_class": observation.get("source_class") or observation.get("platform"),
+            "retrieved_at": observation.get("retrieved_at"),
+            "content_sha256": observation.get("content_sha256"),
+            "claim_span": observation.get("evidence_span") or observation.get("text"),
+            "identity_proof": observation.get("identity_proof") or [],
+            "effective_at": observation.get("effective_at") or observation.get("published_at"),
+        })
+        claims.append({
+            "field": signal,
+            "value": observation.get("metrics") or observation.get("text") or observation.get("evidence_span"),
+            "availability": "available",
+            "confidence": 0.99 if observation.get("rights_status") == "approved" else 0.9,
+            "evidence_ids": [evidence_id],
+            "effective_at": observation.get("effective_at") or observation.get("published_at"),
+            "platform": observation.get("platform"),
+            "strategy": observation.get("strategy"),
+        })
+    return claims, evidence_rows
 
 
 def validate_envelopes(envelopes: list[dict[str, Any]], expected_count: int) -> dict[str, Any]:

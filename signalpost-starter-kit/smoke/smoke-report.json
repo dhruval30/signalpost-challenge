@@ -1,7 +1,7 @@
 {
-  "run_id": "smoke-001",
-  "started_at": "2026-10-16T08:59:41.180938Z",
-  "completed_at": "2026-10-16T09:00:58.538988Z",
+  "run_id": "smoke-002",
+  "started_at": "2026-10-16T09:37:34.906516Z",
+  "completed_at": "2026-10-16T09:41:29.721868Z",
   "expected_count": 100,
   "emitted_envelopes": 100,
   "resumed_profiles": 0,
@@ -11,6 +11,7 @@
     "accounting_obligation",
     "registry_live",
     "financials",
+    "financial_history",
     "roles",
     "group",
     "locations",
@@ -23,10 +24,40 @@
     "selected": 100
   },
   "operations": {
-    "requests": 538,
-    "bytes": 2447216,
-    "p50_ms": 785,
-    "p95_ms": 1035
+    "requests": 938,
+    "bytes": 2453636,
+    "p50_ms": 778,
+    "p95_ms": 978
+  },
+  "external_footprint": {
+    "connectors": {
+      "google_news_rss": {
+        "accepted": 0,
+        "companies_with_observation": 0,
+        "statuses": {
+          "none": 100
+        }
+      },
+      "fagfolkguiden_reviews": {
+        "accepted": 11,
+        "companies_with_observation": 11,
+        "statuses": {
+          "none": 89,
+          "accepted": 11
+        }
+      },
+      "annual_report_workforce": {
+        "accepted": 89,
+        "companies_with_observation": 89,
+        "statuses": {
+          "accepted": 89,
+          "registry_count_already_available": 10,
+          "conflicting_employee_counts": 1
+        }
+      }
+    },
+    "total_observations": 89,
+    "companies_with_any_observation": 89
   },
   "validation": {
     "passed": true,

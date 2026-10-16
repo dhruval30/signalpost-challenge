@@ -65,6 +65,7 @@ logs/
 # --- Local batch selections (reproducible from select_entry_batch.py) ---
 entry-companies.jsonl
 smoke-companies.jsonl
+quick*.jsonl
 
 # --- Large models / weights ---
 *.pt

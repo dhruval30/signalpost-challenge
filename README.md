@@ -28,11 +28,11 @@ Starter-kit directory structure is preserved to avoid breaking imports, scripts,
 
 ## Architecture (one paragraph)
 
-The agent anchors identity in the Brønnøysund (BRREG) bulk registry, pulls official financials/roles/workplaces, then verifies the registry-listed website and emits one terminal envelope per input organisation number. Each claim carries source URL, retrieval timestamp, content SHA-256, and an availability state (`available`, `not_available`, `blocked`, `not_applicable`, `ambiguous`, `failed`). Snapshots feed a deterministic refresh replay that reports material changes idempotently. External-footprint connectors (website activity, Google News RSS, LinkedIn guest, Fagfolkguiden reviews, YouTube, Google Maps normalization, annual-report workforce extraction) widen coverage without weakening identity gates.
+The agent anchors identity in the Brønnøysund (BRREG) bulk registry, pulls official financials/roles/workplaces and the latest annual-report PDFs, then verifies the registry-listed website and emits one terminal envelope per input organisation number. Each claim carries source URL, retrieval timestamp, content SHA-256, identity proof and an availability state (`available`, `not_available`, `blocked`, `not_applicable`, `ambiguous`, `failed`). Three permitted external-footprint connectors run in parallel per company: Google News RSS with exact-legal-name title match, Fagfolkguiden embedded Google aggregate ratings, and OCR-assisted workforce extraction from the official annual-report PDF. Observations surface at the top level of the envelope as `claims[]` + `evidence[]` per the output contract. Snapshots feed a deterministic refresh replay that reports material changes idempotently.
 
 ## Setup
 
-Python 3.12+ and [`uv`](https://docs.astral.sh/uv/).
+Python 3.12+ and [`uv`](https://docs.astral.sh/uv/). Optional system dependencies for OCR workforce extraction on image-only annual reports: `brew install tesseract poppler` (macOS) or `apt-get install tesseract-ocr poppler-utils` (Debian/Ubuntu). The connector degrades silently if these are missing — nothing crashes.
 
 ```bash
 cd signalpost-starter-kit

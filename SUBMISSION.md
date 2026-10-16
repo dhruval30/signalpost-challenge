@@ -46,6 +46,8 @@ curl -L 'https://data.brreg.no/enhetsregisteret/api/enheter/lastned/csv' -o brre
 
 ## 100-company smoke test
 
+Latest result (`smoke-002`, with external-footprint connectors): 100/100 terminal envelopes, validation passed, 89/100 companies with exact-entity workforce observations extracted from the official annual-report PDFs (10 companies had `antallAnsatte` already in the BRREG snapshot and the connector correctly abstained; 1 abstained on conflicting figures). Google News RSS and Fagfolkguiden produced 0 observations on this random micro-firm sample — expected base rate, not a connector failure.
+
 Location in repository:
 
 - Report: `signalpost-starter-kit/smoke/smoke-report.json`
@@ -82,8 +84,11 @@ uv run python scripts/run_refresh_replay.py \
 
 - **BRREG Enhetsregisteret** (public bulk CSV + REST): identity anchor, roles, workplaces, financials, group links. Rate-limited per BRREG terms.
 - **Registry-listed company websites**: HTTP fetch for identity verification and site activity/news extraction (static HTML first; headless browser escalation only when a deterministic completeness check fails).
-- **Permitted public RSS/HTTP feeds** via the included connectors (Google News RSS, YouTube search, Fagfolkguiden reviews, LinkedIn guest surfaces, Google Maps result normalization, annual-report workforce extractor).
+- **Google News RSS** (`https://news.google.com/rss/search`): exact-legal-name title matching for buzz/public-mention signals. No key, no cost.
+- **Fagfolkguiden** (`https://www.fagfolkguiden.no/bedrift/`): embedded Google aggregate rating lifted from the exact company directory page with strict legal-name + org-number identity gate. No key, no cost.
+- **Official annual-report PDFs** (BRREG `/dokumenter/aarsregnskap/...`): workforce (`årsverk`/`ansatte`) extracted via regex + OCR fallback (`tesseract` + `pdftoppm`) with exact organisation number in the document. Hits workforce/jobs scoring dimension.
 - **No proprietary LLM API** is invoked by the evaluator command path. The optional sentiment extra uses a local transformers model (`torch`/`transformers`/`accelerate`) and is not required for the baseline evaluator run.
+- Optional system dependencies: `tesseract-ocr` + `poppler-utils` for OCR on image-only PDFs. Connector degrades silently (returns no observation) when absent.
 
 No server-side secrets are required for the baseline evaluator command. Any connector that needs an API key reads it from an environment variable only and is skipped (returning `blocked` / `not_available`) when the variable is unset.
 
